@@ -1,0 +1,8 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+srcdir=@datarootdir@/apertium/apertium-moe
+
+Name: apertium-moe
+Description: Finite-state morphological transducer and constraint grammar for moe 
+Version: @VERSION@
+

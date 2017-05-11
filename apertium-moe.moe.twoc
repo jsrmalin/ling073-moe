@@ -1,0 +1,40 @@
+Alphabet
+
+  %[%-p1%]:0 %[%-p2%]:0 %[%-p3%]:0 %[%-pindef%]:0 %[%-aa%]:0 %[%-nn%]:0 %[%-poss%]:0
+  %[%+p1%]:0 %[%+p2%]:0 %[%+p3%]:0 %[%+pindef%]:0 %[%+aa%]:0 %[%+nn%]:0 %[%+poss%]:0
+
+;
+
+Rules
+
+"Remove paths without matching suffix feature"
+Fx:0 /<= _ ;
+   except
+       _ :* Fy:0 ;
+   where Fx in ( %[%-p1%] %[%-p2%] %[%-p3%] %[%-pindef%] )
+         Fy in ( %[%+p1%] %[%+p2%] %[%+p3%] %[%+pindef%] )
+   matched ;
+
+"Remove paths without matching prefix feature"
+Fx:0 /<= _ ;
+   except
+       Fy:0 :* _ ;
+   where Fy in ( %[%-p1%] %[%-p2%] %[%-p3%] %[%-pindef%] )
+         Fx in ( %[%+p1%] %[%+p2%] %[%+p3%] %[%+pindef%] )
+matched ;
+
+"Remove paths without matching prefix feature"
+Fx:0 /<= _ ;
+   except
+       Fy:0 :* _ ;
+   where Fy in ( %[%-aa%] %[%-nn%] )
+         Fx in ( %[%+aa%] %[%+nn%] )
+matched ;
+
+"Remove paths without matching prefix feature"
+Fx:0 /<= _ ;
+   except
+       Fy:0 :* _ ;
+   where Fy in ( %[%-poss%] )
+	 Fx in ( %[%+poss%] )
+matched ;

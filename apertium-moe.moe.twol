@@ -1,0 +1,84 @@
+Alphabet
+ A B Ç D E Ä F G H I J Ž K L M N Ň O Ö P R S Ş T U ᵘ Ü W Y Ý Z
+ a b ç d e ä f g h i j ž k l m n ň o ö p r s ş t u ᵘ ü w y ý z
+ %>:0  
+ %{ᵘ%}:ᵘ ! %{ᵘ%}:u
+ %{t%}:0 ! %{t%}:t
+ %{i%}:i ! %{i%}:0
+ %{u%}:u ! %{u%}:0
+ %{S%}:s ! %{S%}:t
+ %{h%}:h ! %{h%}:0
+ %{U%}:u ! %{U%}:i
+ %{I%}:i ! %{I%}:e
+ %{n%}:n ! %{n%}:0
+ %{e%}:e ! %{e%}:0
+ %{a%}:a ! %{a%}:0
+ %{A%}:u ! %{A%}:a
+ %{z%}:0
+
+ ;
+
+Sets
+
+Vowel = A E Ä I O Ö U Ü Y Ý ᵘ
+        a e ä i o ö u ü y ý ᵘ ;
+
+Archivowel = %{U%} %{i%} %{u%} %{ᵘ%} %{e%} %{a%} %{I%} %{A%} ;
+
+Group = A E I
+	a e i ;
+
+Rules 
+
+"Make ᵘ into u with following suffix"
+%{ᵘ%}:u <=>  _ %>: ;
+
+"Add t to prefix before roots beginning with non-u vowel"
+%{t%}:t <=> _ %>: [ :Group ] ;
+	    _ %>: :u %{z%}: ;
+
+"Remove i from prefix before roots beginning with u"
+%{i%}:0 <=> _ %{t%}: %>: :u ;
+	    [ :Vowel | Archivowel: ] %>: _ ;
+	    [ :Vowel ] %>: _ ;
+	    :n %>: _ :n ; ! This needs fixing, since there are cases in which it shouldn't disappear
+	    _ %>: %{i%}: ;
+
+"Remove u from prefix before roots beginning with u"
+%{u%}:0 <=> _ %{t%}: %>: :u ;
+	    _ %>: %{i%}: ;
+	    :u %>: _ ;
+	    ! :n %>: _ ; ! Idiosyncratically conditioned, according to grammar.  Input VII verb roots accordingly.
+
+"Change sh to t before a suffix: s"
+%{S%}:t <=> _ %{h%}: %>: ;
+	    except
+		_ %{h%}: %>: %{z%}: ; ! Ensure this gets put on the correct forms
+
+"Change sh to t before a suffix: h"
+%{h%}:0 <=> %{S%}: _ %>: ;
+	    except
+		_ :* %{z%}: ;
+
+"Change u to i before some suffixes"
+%{U%}:i <=> _ %>: %{i%}: ;
+
+"Remove n from suffix after n-final root"
+%{n%}:0 <=> :n %>: _ ;
+
+"Remove e from suffix after vowel-final stem"
+%{e%}:0 <=> [ :Vowel | Archivowel: ] %>: _ ;
+
+"Remove a from suffix after vowel-final stem"
+%{a%}:0 <=> [ :Vowel | Archivowel: ] %>: _ ;
+
+"Change u to a in inverted-hierarchy VTA verbs"
+%{A%}:a <=> _ %>: %{i%}: [ :t | :k ] ;
+
+! Resources:
+! http://wiki.apertium.org/wiki/Starting_a_new_language_with_HFST#Enter_twol
+! https://kitwiki.csc.fi/twiki/bin/view/KitWiki/HfstHome
+! http://hfst.sourceforge.net/
+! http://wiki.apertium.org/wiki/Twol
+! http://wiki.apertium.org/wiki/Hfst
+

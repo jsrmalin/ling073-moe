@@ -1,0 +1,435 @@
+! Morphological Transducer for moe
+
+Multichar_Symbols
+
+! Part of speech categories
+%<n%>   	! Noun
+%<vblex%> 	! Verb
+%<ij%>		! Interjection
+%<prn%>		! Pronoun
+%<adv%>		! Adverb
+%<cnjcoo%>	! Coordinating Conjunction
+
+! Number morphology
+%<pl%>  	! Plural
+%<sg%>  	! Singular
+%<inc%>		! Inclusive
+%<exc%>		! Exclusive
+
+! Possession morphology
+%<px1sg%> 	! 1st person singular possessor
+%<px2sg%>	! 2nd person singular possessor
+%<px3sg%> 	! 3rd person singular possessor
+%<px3obv%>	! 3rd person obviative possessor
+%<px1plex%>	! 1st person plural exclusive possessor
+%<px1plin%>	! 1st person plural inclusive posssessor
+%<px2pl%>	! 2nd person plural possessor
+%<px3pl%>	! 3rd person plural possessor
+%<pxindef%>	! Indefinite possessor
+
+! Gender
+%<aa%> ! Animate
+%<nn%> ! Inanimate
+
+! Noun morphology
+%<obv%> ! Obviative
+%<loc%> ! Locative
+
+! Verb Categories
+%<iv%> ! Intransitive
+%<tv%> ! Transitive
+
+! Person Morphology
+%<p1%> ! 1st person
+%<p2%> ! 2nd person
+%<p3%> ! 3rd person
+
+! Object Morphology
+%<obj1sg%>	! First person singular object
+%<obj1plex%>	! First person plural exclusive object
+%<obj1plin%>	! First person plural inclusive object
+%<obj2sg%>	! Second person singular object
+%<obj2pl%>	! Second person plural object
+%<obj2%>	! Second person object (indeterminate number) NOTE: Check to make sure this is how this really works
+%<obj3sg%>	! Third person object
+%<obj3pl%>	! Third person plural object
+%<obj3obv%>	! Obviative object
+
+! Pronoun Categories
+%<dem%> ! Demonstrative
+%<prx%>	! Proximal
+%<med%> ! Medial
+%<mdst%> ! Medio-distal
+%<dst%> ! Distal
+%<foc%> ! Focus
+%<itg%> ! Interrogative
+
+! Punctuation
+%<sent%>	! Sentence
+%<cm%>		! Comma
+%<quot%>	! Quote introducer (dash)
+%<lquot%>	! Left quote
+%<rquot%>	! Right quote
+%<lpar%>	! Left parenthesis
+%<rpar%>	! Right parenthesis
+
+! Other symbols
+%>      ! Morpheme boundary
+
+! Archiphonemes
+%{ᵘ%}
+%{t%}
+%{i%}
+%{u%}
+%{S%}
+%{h%}
+%{U%}
+%{z%}
+%{n%}
+%{e%}
+%{a%}
+%{A%}
+
+! "Prefix" symbols
+%[%+p1%]
+%[%-p1%]
+%[%+p2%]
+%[%-p2%]
+%[%+p3%]
+%[%-p3%]
+%[%-pindef%]
+%[%-pindef%]
+%[%-nn%]
+%[%+nn%]
+%[%+aa%]
+%[%-aa%]
+%[%-poss%]
+%[%+poss%]
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!                       M O R P H O T A C T I C S                         !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+LEXICON Root
+
+NounPrefixes ;
+VerbPrefixes ;
+MiscRoot ;
+PronounRoot ;
+AdvRoot ;
+Punctuation ;
+
+
+LEXICON NounPrefixes
+
+NounRoot ;
+%[%-p1%]%[%-poss%]:n%{i%}%{t%}%> NounRoot ;
+%[%-p2%]%[%-poss%]:tsh%{i%}%{t%}%> NounRoot ;
+%[%-p3%]%[%-poss%]:%{u%}%{t%}%> NounRoot ;
+%[%-p1%]%[%-poss%]:n%{i%}%{t%}%> DepRoot ;
+%[%-p2%]%[%-poss%]:tsh%{i%}%{t%}%> DepRoot ;
+%[%-p3%]%[%-poss%]:%{u%}%{t%}%> DepRoot ;
+%[%-pindef%]%[%-poss%]:m%{i%}%{t%} DepRoot ;
+
+
+LEXICON AnimNoun
+
+%[%-aa%]%<n%>%<aa%>:0 PossInfl ;
+
+
+LEXICON InanimNoun
+
+%[%-nn%]%<n%>%<nn%>:0 PossInfl ;
+
+
+LEXICON MpossInanim
+
+%[%-nn%]%<%n%>%<nn%>:0 NounInfl ;
+%[%-nn%]%[%+poss%]%<%n%>%<nn%>:%>%{i%}m PossInfl ;
+
+
+LEXICON MpossAnim
+
+%[%-aa%]%<%n%>%<aa%>:0 NounInfl ;
+%[%-aa%]%[%+poss%]%<%n%>%<aa%>:%>%{i%}m PossInfl ;
+
+
+LEXICON PossInfl
+
+NounInfl ;
+%[%+p1%]%<px1sg%>:0 NounInfl ;
+%[%+p2%]%<px2sg%>:0 NounInfl ;
+%[%+p3%]%<px3sg%>:0 NounInfl ;
+%[%+p1%]%<px1plex%>:%>%{i%}nan NounInfl ;
+%[%+p2%]%<px1plin%>:%>%{i%}nan NounInfl ;
+%[%+p2%]%<px2pl%>:%>uau NounInfl ;
+%[%+p3%]%<px3pl%>:%>uau NounInfl ;
+%[%+p3%]%<px3obv%>:%>%{i%}nu NounInfl ;
+
+
+LEXICON NounInfl
+
+%<sg%>:0 # ;
+%[%+aa%]%<pl%>:%>at # ;
+%[%+aa%]%<obv%>:%>a # ;
+%[%+nn%]%<pl%>:%>a # ;
+%[%+nn%]%<obv%>%<sg%>:%>%{i%}nu # ;
+%<loc%>:%>%{i%}t # ;
+
+
+LEXICON VerbPrefixes
+
+%[%-p1%]:n%{i%}%{t%}%> VerbRoot ;
+%[%-p2%]:tsh%{i%}%{t%}%> VerbRoot ;
+%[%-p3%]:0 VerbRoot ;
+
+
+LEXICON AnimIntr
+
+%[%-aa%]%<vblex%>%<iv%>%<aa%>:0 IntrInfl ;
+
+
+LEXICON InanimIntr
+
+%[%-nn%]%<vblex%>%<iv%>%<nn%>:0 IntrInfl ;
+
+
+LEXICON IntrInfl
+
+%[%+p1%]%[%+aa%]%<p1%>%<sg%>:%>%{n%} # ;
+%[%+p2%]%[%+aa%]%<p2%>%<sg%>:%>%{n%} # ;
+%[%+p3%]%<p3%>%<sg%>:%>%{u%} # ;
+%[%+p1%]%[%+aa%]%<p1%>%<pl%>%<exc%>:%>nan # ;
+%[%+p2%]%[%+aa%]%<p1%>%<pl%>%<inc%>:%>nan # ;
+%[%+p2%]%[%+aa%]%<p2%>%<pl%>:%>nau # ;
+%[%+aa%]%[%+p3%]%<p3%>%<pl%>:%>%{u%}at # ;
+%[%+aa%]%[%+p3%]%<p3%>%<obv%>:%>nua # ;
+%[%+nn%]%[%+p3%]%<p3%>%<obv%>%<sg%>:%>nu # ;
+%[%+nn%]%[%+p3%]%<p3%>%<pl%>:%>ua # ;
+%[%+nn%]%[%+p3%]%<p3%>%<obv%>%<pl%>:%>nua # ;
+
+
+LEXICON TransInanimObj
+
+%<vblex%>%<tv%>: TransInfl ;
+
+
+LEXICON TransInfl
+
+%[%+p1%]%<p1%>%<sg%>:%>%{e%}n # ;
+%[%+p2%]%<p2%>%<sg%>:%>%{e%}n # ;
+%[%+p3%]%<p3%>%<sg%>:%>%{a%}mᵘ # ;
+%[%+p1%]%<p1%>%<pl%>%<exc%>:%>%{e%}nan # ;
+%[%+p2%]%<p1%>%<pl%>%<inc%>:%>%{e%}nan # ;
+%[%+p2%]%<p2%>%<pl%>:%>%{e%}nau # ;
+%[%+p3%]%<p3%>%<pl%>:%>%{a%}muat # ;
+%[%+p3%]%<p3%>%<obv%>:%>%{a%}minua # ;
+
+
+LEXICON TransAnimObj
+
+%<vblex%>%<tv%>: TransAnimInfl ;
+
+
+LEXICON TransAnimInfl
+
+%[%+p2%]%<p2%>%<sg%>%<obj1sg%>:%>%{z%}%{i%}n # ;
+%[%+p2%]%<p2%>%<pl%>%<obj1sg%>:%>%{z%}%{i%}nau # ;
+%[%+p2%]%<p2%>%<obj1plex%>:%>%{z%}{i%}nan # ;
+%[%+p2%]%<p1%>%<sg%>%<obj2sg%>:%>%{i%}tin # ;
+%[%+p2%]%<p1%>%<sg%>%<obj2pl%>:%>%{i%}tinau # ;
+%[%+p2%]%<p1%>%<pl%>%<exc%>%<obj2%>:%>%{i%}tinan # ;
+%[%+p1%]%<p1%>%<sg%>%<obj3sg%>:%>au # ;
+%[%+p2%]%<p2%>%<sg%>%<obj3sg%>:%>au # ;
+%[%+p1%]%<p1%>%<pl%>%<exc%>%<obj3sg%>:%>anan # ;
+%[%+p2%]%<p1%>%<pl%>%<inc%>%<obj3sg%>:%>anan # ;
+%[%+p2%]%<p2%>%<pl%>%<obj3sg%>:%>auau # ;
+%[%+p1%]%<p1%>%<sg%>%<obj3pl%>:%>auat # ;
+%[%+p2%]%<p2%>%<sg%>%<obj3pl%>:%>auat # ;
+%[%+p1%]%<p1%>%<pl%>%<exc%>%<obj3pl%>:%>ananat # ;
+%[%+p2%]%<p1%>%<pl%>%<inc%>%<obj3at%>:%>ananat # ;
+%[%+p2%]%<p2%>%<pl%>%<obj3pl%>:%>auauat # ;
+%[%+p1%]%<p3%>%<sg%>%<obj1sg%>:%>%{i%}kᵘ # ;
+%[%+p2%]%<p3%>%<sg%>%<obj2sg%>:%>%{i%}kᵘ # ;
+%[%+p1%]%<p3%>%<sg%>%<obj1plexc%>:%>%{i%}kunan # ;
+%[%+p2%]%<p3%>%<sg%>%<obj1plinc%>:%>%{i%}kunan # ;
+%[%+p2%]%<p3%>%<sg%>%<obj2pl%>:%>%{i%}kuau # ;
+%[%+p1%]%<p3%>%<pl%>%<obj1sg%>:%>%{i%}kuat # ;
+%[%+p2%]%<p3%>%<pl%>%<obj2sg%>:%>%{i%}kuat # ;
+%[%+p1%]%<p3%>%<pl%>%<obj1plexc%>:%>%{i%}kunanat # ;
+%[%+p2%]%<p3%>%<pl%>%<obj1plinc%>:%>%{i%}kunanat # ;
+%[%+p2%]%<p3%>%<pl%>%<obj2pl%>:%>%{i%}kuauat # ;
+%[%+p3%]%<p3%>%<sg%>%<obj3obv%>:%>eu # ;
+%[%+p3%]%<p3%>%<pl%>%<obj3obv%>:%>euat # ;
+%[%+p3%]%<p3%>%<obv%>%<obj3sg%>:%>%{i%}ku # ;
+%[%+p3%]%<p3%>%<obv%>%<obj3pl%>:%>%{i%}kuat # ;
+%[%+p1%]%<p1%>%<sg%>%<obj3obv%>:%>%{i%}maua # ;
+%[%+p2%]%<p2%>%<sg%>%<obj3obv%>:%>%{i%}maua # ;
+%[%+p1%]%<p1%>%<pl%>%<exc%>%<obj3obv%>:%>%{i%}manana # ;
+%[%+p2%]%<p1%>%<pl%>%<inc%>%<obj3obv%>:%>%{i%}manana # ;
+%[%+p2%]%<p2%>%<pl%>%<obj3obv%>:%>%{i%}mauaua # ;
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!                          L E X I C O N                                  !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+LEXICON NounRoot
+
+atimᵘ:atim%{ᵘ%} AnimNoun ; ! "dog"
+%[%+poss%]atimᵘ:em AnimNoun ; ! "dog" (possessed form)
+putai:puta%{i%} MpossInanim ; ! "bottle"
+anik:anik AnimNoun ; ! "toad"
+ashtish:ashtish AnimNoun ; ! "mitten/glove"
+maikan:maikan AnimNoun ; ! "wolf"
+innasht:innasht AnimNoun ; ! "fir tree"
+atikᵘ:atik%{ᵘ%} AnimNoun ; ! "caribou"
+ishkueu:ishkueu MpossAnim ; ! "woman"
+utshimau:utshimau MpossAnim ; ! "chief/boss/director/Mister/hockey goalie"
+apui:apui AnimNoun ; ! "paddle/propeller"
+massin:massin InanimNoun ; ! "shoe"
+akup:akup InanimNoun ; ! "coat/jacket/dress"
+akupiss:akupiss InanimNoun ; ! "jacket or dress for a baby"
+utenau:utena%{u%} MpossInanim ; ! "town"
+ush:u%{z%}%{S%}%{h%} InanimNoun ; ! "canoe/boat"
+miush:miu%{S%}%{h%} InanimNoun ; ! "box/container"
+ishkuteu-ush:ishkuteu-u%{S%}%{h%} InanimNoun ; ! "motorboat/steamship"
+aiamieun:aiamieun InanimNoun ; ! "prayer/religion"
+anushkan:anushkan AnimNoun ; ! "raspberry"
+ishkuess:ishkuess AnimNoun ; ! "girl"
+amishkᵘ:amishk%{ᵘ%} AnimNoun ; ! "beaver"
+assikᵘ:assik%{ᵘ%} InanimNoun ; ! "pail/pot, canoe motor"
+mishtikᵘ:mishtik%{ᵘ%} AnimNoun ; ! "tree"
+mishtikᵘ:mishtik%{ᵘ%} InanimNoun ; ! "stick/log"
+utukai:utuka%{i%} InanimNoun ; ! "ear (independent), apricot"
+nekau:neka%{u%} InanimNoun ; ! "sand"
+utei:utei InanimNoun ; ! "heart (independent)"
+mei:mei InanimNoun ; ! "turd"
+uau:uau InanimNoun ; ! "egg"
+minapui:minapu%{i%} MpossInanim ; ! "jam"
+nipishapui:nipishapu%{i%} InanimNoun ; ! "tea"
+utshu:utsh%{U%} InanimNoun ; ! "mountain"
+shipu:ship%{U%} InanimNoun ; ! "river"
+mashkushu:mashkush%{U%} InanimNoun ; ! "blade of grass, fern"
+mitshuap:mitshuap InanimNoun ; ! "house"
+pimi:pimi MpossInanim ; ! "grease/oil"
+pishimᵘ:pishim%{ᵘ%} AnimNoun ; ! "sun/moon/month"
+utapan:utapan InanimNoun ; ! "vehicle"
+unakan:u%{z%}nakan InanimNoun ; ! "bowl/dish/cup"
+nekautu:nekautu MpossAnim ; ! "cake"
+uapush:uapush MpossAnim ; ! "rabbit" Possession status uncertain
+umatshashkukᵘ:umatshashkukᵘ MpossAnim ; ! "frog" Possession status uncertain
+innu:innu MpossAnim  ! "human, Innu" Possession status uncertain
+
+
+LEXICON DepRoot
+
+titshi:titshi InanimNoun ; ! "hand"
+anish:anish AnimNoun ; ! "daughter"
+shim:shim AnimNoun ; ! "sibling, cousin"
+shtesh:shtesh AnimNoun ; ! "brother, male cousin"
+
+
+LEXICON VerbRoot 
+
+nipa AnimIntr ; ! "sleep"
+pashte:pashte InanimIntr ; ! "be dry"
+pash:pash TransInanimObj ; ! "dry"
+itakan:itakan AnimIntr ; ! "is told"
+uapam:uapam TransAnimObj ; ! "see"
+petu:pet%{A%} TransAnimObj ; ! "hear"
+uitshi:uitshi TransAnimObj ; ! "help"
+it:it TransAnimObj ; ! "say to"
+nene:nene AnimIntr ; ! "breathe"
+minuat:minua%{S%}%{h%} TransAnimObj ; ! "like"
+
+
+LEXICON MiscRoot
+
+ekᵘ%<ij%>:ekᵘ # ; ! "And then"
+ekue%<cnjcoo%>:ekue # ; ! "then, consequently"
+eukuan%<ij%>:eukuan # ; ! "Even though, anyway, I see"
+eshe%<ij%>:eshe # ; ! "yes"
+shash%<ij%>:shash # ; ! "That's all"
+tanite%<cnjcoo%>:tanite # ; ! "because, since - is this coordinating or subordinating?
+minuat%<cnjcoo%>:minuat # ; ! "ans then"
+
+
+LEXICON PronounRoot
+
+dem%<prn%>%<dem%>%<aa%>%<prx%>%<sg%>:ue # ;
+dem%<prn%>%<dem%>%<aa%>%<prx%>%<pl%>:utshenat # ;
+dem%<prn%>%<dem%>%<aa%>%<med%>%<sg%>:ne # ;
+dem%<prn%>%<dem%>%<aa%>%<med%>%<sg%>:an # ; ! There is a slight difference in sense between ne and an
+dem%<prn%>%<dem%>%<aa%>%<med%>%<pl%>:anitshenat # ;
+dem%<prn%>%<dem%>%<aa%>%<mdst%>%<sg%>:ne # ; ! Grammar seems inconsistent: ne or neme?
+dem%<prn%>%<dem%>%<aa%>%<mdst%>%<pl%>:netshenat # ;
+dem%<prn%>%<dem%>%<aa%>%<dst%>%<sg%>:naui # ;
+dem%<prn%>%<dem%>%<aa%>%<dst%>%<sg%>:nahi # ;
+dem%<prn%>%<dem%>%<aa%>%<dst%>%<pl%>:nauitshenat # ;
+dem%<prn%>%<dem%>%<aa%>%<dst%>%<pl%>:nahitshenat # ;
+dem%<prn%>%<dem%>%<nn%>%<prx%>%<sg%>:ume # ;
+dem%<prn%>%<dem%>%<nn%>%<prx%>%<pl%>:umeni # ;
+dem%<prn%>%<dem%>%<nn%>%<med%>%<sg%>:ne # ;
+dem%<prn%>%<dem%>%<nn%>%<med%>%<pl%>:neni # ;
+dem%<prn%>%<dem%>%<nn%>%<mdst%>%<sg%>:neme # ;
+dem%<prn%>%<dem%>%<nn%>%<mdst%>%<pl%>:nemeni # ;
+dem%<prn%>%<dem%>%<nn%>%<dst%>%<sg%>:naume # ;
+dem%<prn%>%<dem%>%<nn%>%<dst%>%<pl%>:naumeni # ;
+dem%<prn%>%<dem%>%<loc%>%<prx%>:ute # ; ! "here"
+dem%<prn%>%<dem%>%<loc%>%<med%>:anite # ; ! "there"
+dem%<prn%>%<dem%>%<loc%>%<mdst%>:nete # ;
+dem%<prn%>%<dem%>%<loc%>%<dst%>:naute # ;
+dem%<prn%>%<dem%>%<foc%>%<sg%>:eukuan # ;
+dem%<prn%>%<dem%>%<foc%>%<aa%>%<pl%>:eukuanat # ;
+dem%<prn%>%<dem%>%<foc%>%<nn%>%<pl%>:eukuaneni # ;
+dem%<prn%>%<dem%>%<foc%>%<loc%>:ekuta # ;
+dem%<prn%>%<dem%>%<foc%>%<loc%>:ekute # ;
+prn%<prn%>%<p1%>%<sg%>:nin # ;
+prn%<prn%>%<p2%>%<sg%>:tshin # ;
+prn%<prn%>%<p3%>%<sg%>:uin # ;
+prn%<prn%>%<p1%>%<pl%>%<exc%>:ninan # ;
+prn%<prn%>%<p1%>%<pl%>%<inc%>:tshinan # ;
+prn%<prn%>%<p1%>%<pl%>%<inc%>:tshinanu # ;
+prn%<prn%>%<p2%>%<pl%>:tshinuau # ;
+prn%<prn%>%<p3%>%<pl%>:uinuau # ;
+itg%<prn%>%<itg%>%<loc%>:tanite # ;
+
+
+LEXICON AdvRoot
+
+dem%<adv%>%<dem%>%<loc%>%<prx%>:ute # ; ! "here"
+dem%<adv%>%<dem%>%<loc%>%<med%>:anite # ; ! "there"
+dem%<adv%>%<dem%>%<loc%>%<mdst%>:nete # ;
+dem%<adv%>%<dem%>%<loc%>%<dst%>:naute # ;
+tapue%<adv%>:tapue # ; ! "really, truly"
+mani%<adv%>:mani # ; ! "sometimes/occasionally, regularly"
+shash%<adv%>:shash # ; ! "finally, already"
+eka%<adv%>%<neg%>:eka # ; ! "not, don't" (subordinate clauses and imperatives)
+apu%<adv%>%<neg%>:apu # ; ! "not" (independent clauses)
+minuat%<adv%>:minuat # ; ! "again"
+
+
+LEXICON Punctuation
+
+.%<sent%>:. # ;
+,%<cm%>:, # ;
+%—%<quot%>:%— # ;
+%?%<sent%>:%? # ;
+%«%<lquot%>:%« # ;
+%»%<rquot%>:%» # ;
+%(%<lpar%>:%( # ;
+%)%<rpar%>:%) # ;
+
+
+! Resources:
+! http://wiki.apertium.org/wiki/Starting_a_new_language_with_HFST#Lexicon
+! http://wiki.apertium.org/wiki/Lttoolbox_and_lexc
+! http://wiki.apertium.org/wiki/Apertium-specific_conventions_for_lexc
+! https://kitwiki.csc.fi/twiki/bin/view/KitWiki/HfstHome
+! http://hfst.sourceforge.net/
+! http://www.cis.upenn.edu/~cis639/docs/lexc.html
+! http://wiki.apertium.org/wiki/Hfst
+

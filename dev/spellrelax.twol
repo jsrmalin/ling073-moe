@@ -1,0 +1,16 @@
+Alphabet
+ A Â B Ç D E Ä F G H I J Ž K L M N Ň O Ô Ȣ Ö P R S Ş T U Ü ᵘ W Y Ý Z
+ a â b ç d e ä f g h i j ž k l m n ň o ô ȣ ö p r s ş t u ü ᵘ w y ý z
+
+ %':%' %ʼ:%'
+ %`:%` %ʼ:%`
+ %ʻ:%ʻ %ʼ:%ʻ
+ %’:%’ %ʼ:%’
+ %‘:%‘ %ʼ:%‘
+
+;
+
+Rules
+
+"Spell relax"
+a => _ ;
